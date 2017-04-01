@@ -17,5 +17,11 @@
         "psr-4": {
             "gud3\\sms\\": ""
         }
-    }
+    },
+    "repositories":[
+        {
+            "type": "git",
+            "url": "https://github.com/gud3/yii2-sms"
+        }
+    ]
 }

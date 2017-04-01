@@ -28,4 +28,5 @@ Usage
 Once the extension is installed, simply use it in your code by  :
 
 ```php
-<?= \gud3\sms\AutoloadExample::widget(); ?>```
+<?= \gud3\sms\AutoloadExample::widget(); ?>
+```
