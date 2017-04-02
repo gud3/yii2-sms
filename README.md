@@ -25,8 +25,23 @@ to the require section of your `composer.json` file.
 Usage
 -----
 
-Once the extension is installed, simply use it in your code by  :
+To use this extension, simply add the following code in your application configuration:
 
 ```php
-<?= \gud3\sms\AutoloadExample::widget(); ?>
+return [
+    //....
+    'components' => [
+        'sms' => [
+            'class' => 'common\components\Sms',
+        ],
+    ],
+];
 ```
+
+You can then send an sms in queue as follows:
+
+```php
+Yii::$app->sms->send('+380*******', 'This is text of test message');
+```
+
+
