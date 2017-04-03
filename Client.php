@@ -7,9 +7,12 @@ use yii\base\Component;
 use yii\base\ErrorException;
 use yii\base\InvalidConfigException;
 
-class Sms extends Component
+class Client extends Component
 {
     public $service = 'TurboSms';
+    public $name;
+    public $login;
+    public $password;
 
     private $_client;
     private $_status;
@@ -21,13 +24,13 @@ class Sms extends Component
             throw new InvalidConfigException('No set service');
         }
 
-        $this->_client = Yii::createObject(dirname(__DIR__). '\SmsServices\\' . $this->service);
-
         try {
+            $this->_client = Yii::createObject('gud3\sms\Services\\' . $this->service);
+
             if ($this->_client instanceof SmsInterface) {
-                $this->_client->connect(Yii::$app->params['sms']['login'], Yii::$app->params['sms']['password']);
+                $this->_client->connect($this->login, $this->password);
             } else {
-                throw new ErrorException('You service no implements in SmsInterface');
+                throw new \Exception('You service no implements in SmsInterface');
             }
         } catch (ErrorException $e) {
             $this->_error = $e->getMessage();
@@ -55,9 +58,9 @@ class Sms extends Component
             if ($this->_client->getStatus() === true) {
                 $this->_status = $this->_client->getId();
             } else {
-                throw new ErrorException('No send message');
+                throw new \Exception('No send message');
             }
-        } catch (ErrorException $e) {
+        } catch (\ErrorException $e) {
             $this->_error = $e->getMessage();
             $this->_status = false;
         }

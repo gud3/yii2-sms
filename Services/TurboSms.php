@@ -1,6 +1,6 @@
 <?php
 
-namespace gud3\sms\SmsServices;
+namespace gud3\sms\Services;
 
 use Yii;
 use yii\base\ErrorException;

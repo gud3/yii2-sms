@@ -32,7 +32,10 @@ return [
     //....
     'components' => [
         'sms' => [
-            'class' => 'common\components\Sms',
+            'class' => 'gud3\sms\Client',
+            'name' => 'Display name',
+            'login' => 'You login in Sms service',
+            'password' => 'You password',
         ],
     ],
 ];
@@ -41,7 +44,7 @@ return [
 You can then send an sms in queue as follows:
 
 ```php
-Yii::$app->sms->send('+380*******', 'This is text of test message');
+Yii::$app->sms->send('+**********', 'This is text of test message');
 ```
 
 
