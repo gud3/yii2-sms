@@ -2,57 +2,55 @@
 
 namespace gud3\sms\Services;
 
-use Yii;
-use yii\base\ErrorException;
+use gud3\sms\Sms;
 use SoapClient;
-use gud3\sms\SmsInterface;
+use yii\base\InvalidConfigException;
+use yii\base\Object;
 
-class TurboSms implements SmsInterface
+class TurboSms extends Object implements ServiceInterface
 {
-    const CALL_URL = 'http://turbosms.in.ua/api/wsdl.html';
-    
-    private $_obj;
-    private $_result;
-    private $_status = null;
+    public $url = 'http://turbosms.in.ua/api/wsdl.html';
+    public $login;
+    public $password;
 
-    public function connect($login, $password)
+    public function init()
     {
-        $this->_obj = new SoapClient(self::CALL_URL);
+        if (empty($this->url) || empty($this->login) || empty($this->password)) {
+            throw new InvalidConfigException('Specify URL, login and password.');
+        }
+    }
 
-        $result = $this->_obj->Auth([
-            'login' => $login,
-            'password' => $password,
+    private $_client;
+
+    public function send(Sms $sms)
+    {
+        $result = $this->getClient()->SendSMS([
+            'sender' => $sms->getSender(),
+            'destination' => implode(',', $sms->getDestinations()),
+            'text' => $sms->getMessage()
         ]);
 
-        if ($result->AuthResult !== 'Вы успешно авторизировались') {
-            throw new ErrorException($result->AuthResult);
+        $status = $result->SendSMSResult->ResultArray[0];
+        if ($status !== 'Сообщения успешно отправлены') {
+            throw new \RuntimeException($status);
         }
+
+        return $result->SendSMSResult->ResultArray[1];
     }
 
-    public function sendSms($message)
+    private function getClient()
     {
-        $this->_result = $this->_obj->SendSMS($message);
-    }
-
-    public function getStatus()
-    {
-        $out_status = $this->_result->SendSMSResult->ResultArray[0];
-        if ($out_status == 'Сообщения успешно отправлены') {
-            $this->_status = true;
-
-            return true;
-        } else {
-            return $out_status;
+        if ($this->_client === null) {
+            $client = new SoapClient($this->url);
+            $result = $client->Auth([
+                'login' => $this->login,
+                'password' => $this->password,
+            ]);
+            if ($result->AuthResult !== 'Вы успешно авторизировались') {
+                throw new \RuntimeException($result->AuthResult);
+            }
+            $this->_client = $client;
         }
-    }
-
-    public function getId()
-    {
-        switch ($this->_status) {
-            case true:
-                return $this->_result->SendSMSResult->ResultArray[1];
-            default:
-                return null;
-        }
+        return $this->_client;
     }
 }
