@@ -1,6 +1,7 @@
 Sms sender
 ==========
-The message sender. The package includes sending for service turbosms, smsapi.
+
+The message sender. The package includes sending for service TurboSMS, SmsAPI.
 
 Installation
 ------------
@@ -21,7 +22,6 @@ or add
 
 to the require section of your `composer.json` file.
 
-
 Usage
 -----
 
@@ -33,10 +33,12 @@ return [
     'components' => [
         'sms' => [
             'class' => 'gud3\sms\Client',
-            'serivce' => 'TurboSms' or 'SMSAPI'
-            'name' => 'Display name',
-            'login' => 'You login in Sms service',
-            'password' => 'You password',
+            'sender' => 'Display name',
+            'service' => [
+                'class' => 'gud3\sms\Services\SmsApi', // or TurboSms
+                'login' => '***',
+                'password' => '***',
+            ],
         ],
     ],
 ];
@@ -45,11 +47,8 @@ return [
 You can then send an sms in queue as follows:
 
 ```php
-Yii::$app->sms->send('+**********', 'This is text of test message'); // Send message
-
-Yii::$app->sms->getStatus();        // return status send
-Yii::$app->sms->getTransactionId(); // return transaction id
-Yii::$app->sms->getError();         // if status === false return Text Error
+Yii::$app->sms->send('+**********', 'This is text of test message');
+Yii::$app->sms->send(['+**********', '+**********'], 'This is text of test message');
 ```
 
 
