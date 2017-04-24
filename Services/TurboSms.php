@@ -50,7 +50,7 @@ class TurboSms implements SmsInterface
     {
         switch ($this->_status) {
             case true:
-                return $this->_status->SendSMSResult->ResultArray[1];
+                return $this->_result->SendSMSResult->ResultArray[1];
             default:
                 return null;
         }

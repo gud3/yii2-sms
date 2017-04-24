@@ -2,6 +2,10 @@
 
 namespace gud3\sms;
 
+/**
+ * Interface SmsInterface
+ * @package gud3\sms
+ */
 interface SmsInterface 
 {
     public function connect($login, $password);
