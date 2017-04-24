@@ -56,7 +56,7 @@ class SMSAPI implements SmsInterface
             curl_setopt($this->_obj, CURLOPT_URL, self::CALL_URL_DEBUG);
             $this->sendSms('Prepare response');
 
-            throw new \Exception($this->_content);
+            throw new \ErrorException($this->_content);
         }
     }
 

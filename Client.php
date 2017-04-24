@@ -34,7 +34,7 @@ class Client extends Component
             if ($this->_client instanceof SmsInterface) {
                 $this->_client->connect($this->login, $this->password);
             } else {
-                throw new \Exception('You service no implements in SmsInterface');
+                throw new \ErrorException('You service no implements in SmsInterface');
             }
         } catch (ErrorException $e) {
             $this->_error = $e->getMessage();
