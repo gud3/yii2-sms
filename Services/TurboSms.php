@@ -7,12 +7,19 @@ use SoapClient;
 use yii\base\InvalidConfigException;
 use yii\base\Object;
 
+/**
+ * Class TurboSms
+ * @package gud3\sms\Services
+ */
 class TurboSms extends Object implements ServiceInterface
 {
     public $url = 'http://turbosms.in.ua/api/wsdl.html';
     public $login;
     public $password;
 
+    /**
+     * @throws InvalidConfigException
+     */
     public function init()
     {
         if (empty($this->url) || empty($this->login) || empty($this->password)) {
@@ -22,6 +29,10 @@ class TurboSms extends Object implements ServiceInterface
 
     private $_client;
 
+    /**
+     * @param Sms $sms
+     * @return mixed
+     */
     public function send(Sms $sms)
     {
         $result = $this->getClient()->SendSMS([
@@ -38,6 +49,9 @@ class TurboSms extends Object implements ServiceInterface
         return $result->SendSMSResult->ResultArray[1];
     }
 
+    /**
+     * @return SoapClient
+     */
     private function getClient()
     {
         if ($this->_client === null) {

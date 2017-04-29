@@ -6,12 +6,19 @@ use gud3\sms\Sms;
 use yii\base\InvalidConfigException;
 use yii\base\Object;
 
+/**
+ * Class SmsAPI
+ * @package gud3\sms\Services
+ */
 class SmsAPI extends Object implements ServiceInterface
 {
     public $url = 'https://api1.smsapi.com/sms.do';
     public $login;
     public $password;
 
+    /**
+     * @throws InvalidConfigException
+     */
     public function init()
     {
         if (empty($this->url) || empty($this->login) || empty($this->password)) {
@@ -19,6 +26,10 @@ class SmsAPI extends Object implements ServiceInterface
         }
     }
 
+    /**
+     * @param Sms $sms
+     * @return mixed
+     */
     public function send(Sms $sms)
     {
         $params = [

@@ -7,6 +7,10 @@ use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
 
+/**
+ * Class Client
+ * @package gud3\sms
+ */
 class Client extends Component
 {
     /**
