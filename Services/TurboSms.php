@@ -41,9 +41,12 @@ class TurboSms extends Object implements ServiceInterface
             'text' => $sms->getMessage()
         ]);
 
-        $status = $result->SendSMSResult->ResultArray[0];
-        if ($status !== 'Сообщения успешно отправлены') {
-            throw new \RuntimeException($status);
+        if (!is_array($result->SendSMSResult->ResultArray)) {
+            throw new \RuntimeException($result->SendSMSResult->ResultArray);
+        } elseif ($result->SendSMSResult->ResultArray[0] !== 'Сообщения успешно отправлены') {
+            throw new \RuntimeException($result->SendSMSResult->ResultArray[0]);
+        } elseif (!isset($result->SendSMSResult->ResultArray[1])) {
+            throw new \RuntimeException($result->SendSMSResult->ResultArray[0]);
         }
 
         return $result->SendSMSResult->ResultArray[1];
