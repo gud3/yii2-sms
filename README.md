@@ -25,8 +25,9 @@ to the require section of your `composer.json` file.
 Usage
 -----
 
-To use this extension, simply add the following code in your application configuration:
-sender name for turbo sms by default ```Msg``
+To use this extension, simply add the following code in your application configuration: 
+
+sender name for turbo sms by default 'Msg'
 ```php
 return [
     //....
@@ -43,6 +44,7 @@ return [
     ],
 ];
 ```
+
 
 
 You can then send an sms in queue as follows:
