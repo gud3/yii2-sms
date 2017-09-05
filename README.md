@@ -26,7 +26,7 @@ Usage
 -----
 
 To use this extension, simply add the following code in your application configuration:
-
+sender name for turbo sms by default ```Msg``
 ```php
 return [
     //....
@@ -44,11 +44,10 @@ return [
 ];
 ```
 
+
 You can then send an sms in queue as follows:
 
 ```php
 Yii::$app->sms->send('+**********', 'This is text of test message');
 Yii::$app->sms->send(['+**********', '+**********'], 'This is text of test message');
 ```
-
-
